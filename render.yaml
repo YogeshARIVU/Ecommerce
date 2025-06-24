@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: ecommerce-backend
+    env: java
+    buildCommand: ./mvnw clean install -DskipTests
+    startCommand: java -jar target/Ecommerce-0.0.1-SNAPSHOT.jar
+    envVars:
+      - key: SPRING_DATASOURCE_URL
+        value: jdbc:postgresql://ep-royal-pine-a875nn5t-pooler.eastus2.azure.neon.tech/ecommercedb?sslmode=require
+      - key: SPRING_DATASOURCE_USERNAME
+        value: ecommercedb_owner
+      - key: SPRING_DATASOURCE_PASSWORD
+        value: npg_OYM4TfHPW1bD
+      - key: JWT_SECRET
+        value: YourSecretJWTKey
+      - key: JWT_EXPIRATION_MS
+        value: 86400000
