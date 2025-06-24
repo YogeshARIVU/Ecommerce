@@ -14,10 +14,10 @@ import java.util.function.Function;
 @Component
 public class JwtUtil {
 
-    @Value("${jwt.secret:mySecretKey123456789012345678901234567890}")
+    @Value("${JWT_SECRET}")
     private String secret;
 
-    @Value("${jwt.expiration:86400000}")
+    @Value("${JWT_EXPIRATION_MS}")
     private long jwtExpirationInMs;
 
     private SecretKey getSigningKey() {
@@ -28,7 +28,7 @@ public class JwtUtil {
         Instant now = Instant.now();
         Instant expiration = now.plusMillis(jwtExpirationInMs);
         return Jwts.builder()
-                .setSubject(username)  // ✅ Corrected line
+                .setSubject(username)
                 .setIssuedAt(Date.from(now))
                 .setExpiration(Date.from(expiration))
                 .signWith(getSigningKey())
@@ -51,7 +51,7 @@ public class JwtUtil {
     private Claims extractAllClaims(String token) {
         return Jwts.parser()
                 .verifyWith(getSigningKey())
-                .clockSkewSeconds(30) // Optional: allow 30 seconds of clock difference
+                .clockSkewSeconds(30)
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
